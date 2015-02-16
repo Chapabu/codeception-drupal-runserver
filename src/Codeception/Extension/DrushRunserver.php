@@ -34,6 +34,7 @@ class DrushRunserver extends Extension
      */
     private $drushBinary = 'drush';
 
+
     /**
      *  Construct a DrushRunserver instance.
      */
