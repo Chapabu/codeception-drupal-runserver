@@ -29,6 +29,11 @@ class DrushRunserver extends Extension
     private $pipes;
 
     /**
+     * @var string
+     */
+    private $drushBinary = 'drush';
+
+    /**
      *  Construct a DrushRunserver instance.
      */
     public function __construct($config, $options)
@@ -39,6 +44,11 @@ class DrushRunserver extends Extension
         }
 
         parent::__construct($config, $options);
+
+        // Allow a configurable path to Drush in case it's not installed system-wide.
+        if (is_null($this->config['drushBinary'])) {
+            $this->drushBinary = $this->config['drushBinary'];
+        }
     }
 
     /**
@@ -66,7 +76,7 @@ class DrushRunserver extends Extension
     {
         // ToDo: Make this more configurable.
         // ToDo: Somehow find out which Drush the user is using as the commands are different.
-        return 'drush runserver -r ' . $this->getDrupalRoot();
+        return $this->drushBinary . ' runserver -r ' . $this->getDrupalRoot();
     }
 
     /**
@@ -105,16 +115,17 @@ class DrushRunserver extends Extension
         // Start the process.
         $this->resource = proc_open($command, $descriptorSpec, $this->pipes, null, null, ['bypass_shell' => true]);
 
-        // Check to ensure the process is actually running.
+        // Check to see if $resource is actually a resource.
         if (!is_resource($this->resource)) {
             throw new ExtensionException($this, 'Failed to start server.');
         }
+
+        // Check to ensure the process is actually running.
         if (!proc_get_status($this->resource)['running']) {
             proc_close($this->resource);
             throw new ExtensionException($this, 'Failed to start server.');
         }
 
-        // If it is, then let the user know.
         $this->writeln('Started Drush server.');
     }
 
