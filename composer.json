@@ -1,0 +1,19 @@
+{
+    "name": "chapabu/codeception-drupal-runserver",
+    "description": "Codeception extension for starting and stopping a Drush server using PHP's built in webserver.",
+    "authors": [
+        {
+            "name": "Chapabu",
+            "email": "chapabu101@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "codeception/codeception": "2.*"
+    },
+    "require-dev": {
+        "drush/drush": "dev-master"
+    },
+    "license": "MIT",
+    "minimum-stability": "stable"
+}
