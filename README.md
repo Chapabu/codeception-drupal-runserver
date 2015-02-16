@@ -1,5 +1,7 @@
 # Codeception Drupal Drush Server
 
+## Note: This is currently under development, btu should be ready shortly :)
+
 Codeception extension for starting and stopping a Drush server using PHP's built in webserver and the `drush runserver` command.
 
 ## Requirements
@@ -14,6 +16,64 @@ Via Composer
 ``` bash
 $ composer require chapabu/codeception-drupal-runserver --dev
 ```
+## Usage
+
+``` yaml
+paths:
+    tests: .
+    log: _log
+    data: _data
+    helpers: _helpers
+extensions:
+    enabled:
+        - Codeception\Extension\DrushRunserver
+    config:
+        Codeception\Extension\DrushRunserver:
+            drushBinary: ../vendor/bin/drush
+            hostname: 127.0.0.1
+            port: 8080
+            variables:
+                site_name: My cool site
+                theme_default: my_awesome_theme
+                site_mail: admin@example.com
+```
+
+### Configuration options
+
+#### drushBinary
+
+``` yaml
+drushBinary: ../vendor/bin/drush
+```
+
+The path to the Drush binary on your system (default: `drush` - as if it were installed globally).
+
+#### hostname
+
+``` yaml
+hostname: 127.0.0.1
+```
+
+The address to bind to the server (default: `127.0.0.1`).
+
+#### port
+
+``` yaml
+port: 8080
+````
+
+The port number to bind to the server (default: `8888`).
+
+#### variables
+
+``` yaml
+variables:
+    site_name: My cool site
+    theme_default: my_awesome_theme
+    site_mail: admin@example.com
+```
+
+A key-value array of variables to override in the`$conf` array for the running site.
 
 ## Testing
 
