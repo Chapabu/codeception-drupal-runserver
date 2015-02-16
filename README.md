@@ -29,6 +29,7 @@ extensions:
         - Codeception\Extension\DrushRunserver
     config:
         Codeception\Extension\DrushRunserver:
+            drupalRoot: docroot
             drushBinary: ../vendor/bin/drush
             hostname: 127.0.0.1
             port: 8080
@@ -39,6 +40,14 @@ extensions:
 ```
 
 ### Configuration options
+
+#### drupalRoot
+
+``` yaml
+drupalRoot: docRoot
+```
+
+The folder (relative to your `codecept.yml` file) where your Drupal installation resides (default: same directory as `codecept.yml`).
 
 #### drushBinary
 
