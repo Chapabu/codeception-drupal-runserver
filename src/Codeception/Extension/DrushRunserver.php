@@ -30,6 +30,7 @@ class DrushRunserver extends Extension
 
     /**
      * @var string
+     *   String containing the path to the Drush binary.
      */
     private $drushBinary = 'drush';
 
@@ -60,12 +61,12 @@ class DrushRunserver extends Extension
     private function getDrupalRoot()
     {
         // We can't get getcwd() as a default parameter, so this will have to do.
-        if (is_null($this->config['root'])) {
+        if (is_null($this->config['drupalRoot'])) {
             return codecept_root_dir();
         } else {
             // If a user has passed in a path to their Drupal root, then we'll still need to append the current working
             // directory to it.
-            return codecept_root_dir($this->config['root']);
+            return codecept_root_dir($this->config['drupalRoot']);
         }
     }
 
@@ -76,7 +77,56 @@ class DrushRunserver extends Extension
     {
         // ToDo: Make this more configurable.
         // ToDo: Somehow find out which Drush the user is using as the commands are different.
-        return $this->drushBinary . ' runserver -r ' . $this->getDrupalRoot();
+//        return $this->drushBinary . ' runserver -r ' . $this->getDrupalRoot();
+        $command = [];
+        $command[] = $this->drushBinary;
+        $command[] = $this->getServerHost();
+        $command[] = '-r ' . $this->getDrupalRoot();
+
+        $variables = $this->getVariables();
+
+        if (!empty($variables)) {
+            $command[] = '--variables=' . $variables;
+        }
+
+        return escapeshellcmd(implode(' ', $command));
+    }
+
+    /**
+     * Get the hostname and port for the server form the provided configuration.
+     *
+     * @return string
+     */
+    private function getServerHost()
+    {
+        $host = [];
+
+        if (isset($this->config['hostname']) && !is_null($this->config['hostname'])) {
+            $host[] = $this->config['hostname'];
+        }
+
+        if (isset($this->config['port']) && !is_null($this->config['port'])) {
+            $host[] = $this->config['port'];
+        }
+
+        return implode(':', $host);
+    }
+
+    /**
+     * Get a string
+     * @return string
+     */
+    private function getVariables()
+    {
+        $variables = [];
+
+        if (isset($this->config['variables']) && is_array($this->config['variables'])) {
+            foreach ($this->config['variables'] as $variable => $value) {
+                $variables[] = $variables . '=' . $value;
+            }
+        }
+
+        return implode(',', $variables);
     }
 
     /**
