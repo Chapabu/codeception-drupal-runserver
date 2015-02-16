@@ -77,7 +77,6 @@ class DrushRunserver extends Extension
     {
         // ToDo: Make this more configurable.
         // ToDo: Somehow find out which Drush the user is using as the commands are different.
-//        return $this->drushBinary . ' runserver -r ' . $this->getDrupalRoot();
         $command = [];
         $command[] = $this->drushBinary;
         $command[] = $this->getServerHost();
