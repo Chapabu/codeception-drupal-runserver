@@ -1,6 +1,6 @@
 # Codeception Drupal Drush Server
 
-## Note: This is currently under development, btu should be ready shortly :)
+## Note: This is currently under development, but should be ready shortly...it ain't ready til it's got tests ;-)
 
 Codeception extension for starting and stopping a Drush server using PHP's built in webserver and the `drush runserver` command.
 
