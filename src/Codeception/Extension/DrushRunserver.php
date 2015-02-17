@@ -102,28 +102,51 @@ class DrushRunserver extends Extension
             $command[] = '--variables=' . $variables;
         }
 
-        sleep(2);
         return escapeshellcmd(implode(' ', $command));
     }
 
     /**
-     * Get the hostname and port for the server form the provided configuration.
+     * Get the hostname and port for the server from the provided configuration.
      *
      * @return string
+     *   A formatted host:port string.
      */
     private function getServerHost()
     {
         $host = [];
 
-        if (isset($this->config['hostname']) && !is_null($this->config['hostname'])) {
-            $host[] = $this->config['hostname'];
-        }
-
-        if (isset($this->config['port']) && !is_null($this->config['port'])) {
-            $host[] = $this->config['port'];
-        }
+        $host[] = $this->getHostname();
+        $host[] = $this->getPort();
 
         return implode(':', $host);
+    }
+
+    /**
+     * Get the hostname for the server from the provided configuration.
+     *
+     * @return string
+     *  Either the configured hostname, or 127.0.0.1.
+     */
+    private function getHostname() {
+        if (isset($this->config['hostname']) && !is_null($this->config['hostname'])) {
+            return $this->config['hostname'];
+        }
+
+        return '127.0.0.1';
+    }
+
+    /**
+     * Get the port for the server from the provided configuration.
+     *
+     * @return string
+     *  Either the configured port, or 8080.
+     */
+    private function getPort() {
+        if (isset($this->config['port']) && !is_null($this->config['port'])) {
+            return $this->config['port'];
+        }
+
+        return '8080';
     }
 
     /**
@@ -190,7 +213,32 @@ class DrushRunserver extends Extension
             throw new ExtensionException($this, 'Failed to start server.');
         }
 
-        sleep(2);
+        // This bit of code lifted from the fantastic Phantoman plugin.
+        // Check it out here: https://github.com/site5/phantoman.
+
+        // Wait until the server is reachable before continuing
+        $max_checks = 10;
+        $checks = 0;
+
+        $this->write("Waiting for the Drush server to be reachable");
+
+        while (true) {
+            if ($checks >= $max_checks) {
+                throw new ExtensionException($this, 'Drush server never became reachable');
+                break;
+            }
+            if ($fp = @fsockopen($this->getHostname(), $this->getPort(), $errCode, $errStr, 10)) {
+                $this->writeln('');
+                $this->writeln("Drush server now accessible");
+                fclose($fp);
+                break;
+            }
+            $this->write('.');
+            $checks++;
+
+            // Wait before checking again
+            sleep(1);
+        }
 
         $this->writeln('Started Drush server.');
     }
