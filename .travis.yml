@@ -26,3 +26,6 @@ script:
 branches:
   only:
     - master
+
+after_failure:
+  - cat tests/_output/drush.runserver.errors.txt
