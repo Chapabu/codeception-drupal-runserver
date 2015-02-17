@@ -48,7 +48,7 @@ class DrushRunserver extends Extension
         parent::__construct($config, $options);
 
         // Allow a configurable path to Drush in case it's not installed system-wide.
-        if (is_null($this->config['drushBinary'])) {
+        if (isset($this->config['drushBinary']) && !is_null($this->config['drushBinary'])) {
             $this->drushBinary = $this->config['drushBinary'];
         }
 
