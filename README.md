@@ -1,6 +1,8 @@
 # Codeception Drupal Drush Server
 
-## Note: This is currently under development, but should be ready shortly...it ain't ready til it's got tests ;-)
+Branch | Status
+-------|-------
+Master|[![Build Status](https://travis-ci.org/Chapabu/codeception-drupal-runserver.svg?branch=master)](https://travis-ci.org/Chapabu/codeception-drupal-runserver)
 
 Codeception extension for starting and stopping a Drush server using PHP's built in webserver and the `drush runserver` command.
 
