@@ -51,6 +51,18 @@ class DrushRunserver extends Extension
         if (is_null($this->config['drushBinary'])) {
             $this->drushBinary = $this->config['drushBinary'];
         }
+
+        $this->startServer();
+
+        $resource = $this->resource;
+
+        register_shutdown_function(
+          function () use ($resource) {
+              if (is_resource($resource)) {
+                  proc_terminate($resource);
+              }
+          }
+        );
     }
 
     /**
@@ -80,6 +92,7 @@ class DrushRunserver extends Extension
         // ToDo: Somehow find out which Drush the user is using as the commands are different.
         $command = [];
         $command[] = $this->drushBinary;
+        $command[] = 'runserver';
         $command[] = $this->getServerHost();
         $command[] = '-r ' . $this->getDrupalRoot();
 
@@ -89,6 +102,7 @@ class DrushRunserver extends Extension
             $command[] = '--variables=' . $variables;
         }
 
+        sleep(2);
         return escapeshellcmd(implode(' ', $command));
     }
 
@@ -177,6 +191,8 @@ class DrushRunserver extends Extension
         }
 
         $this->writeln('Started Drush server.');
+
+        sleep(2);
     }
 
     /**
