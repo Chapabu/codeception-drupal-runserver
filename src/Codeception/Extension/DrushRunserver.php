@@ -190,9 +190,9 @@ class DrushRunserver extends Extension
             throw new ExtensionException($this, 'Failed to start server.');
         }
 
-        $this->writeln('Started Drush server.');
-
         sleep(2);
+
+        $this->writeln('Started Drush server.');
     }
 
     /**
