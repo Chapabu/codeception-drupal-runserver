@@ -1,6 +1,7 @@
 {
     "name": "chapabu/codeception-drupal-runserver",
     "description": "Codeception extension for starting and stopping a Drush server using PHP's built in webserver.",
+    "keywords": ["codeception", "test", "testing", "drupal", "drush"],
     "authors": [
         {
             "name": "Chapabu",
