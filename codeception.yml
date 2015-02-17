@@ -10,8 +10,14 @@ settings:
     memory_limit: 1024M
 modules:
     config:
-        Db:
-            dsn: ''
-            user: ''
-            password: ''
-            dump: tests/_data/dump.sql
+        PhpBrowser:
+            url: http://127.0.0.1:8080/
+extensions:
+    enabled:
+        - Codeception\Extension\DrushRunserver
+    config:
+        Codeception\Extension\DrushRunserver:
+            drupalRoot: testsites/drupal7/drupal-7.x
+            drushBinary: vendor/bin/drush
+            hostname: 127.0.0.1
+            port: 8080
