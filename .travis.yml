@@ -30,3 +30,4 @@ branches:
 after_failure:
   - cat tests/_output/drush.runserver.errors.txt
   - cat tests/_output/drush.runserver.output.txt
+  - cat tests/_output/BasicServerTestCept.fail.html
