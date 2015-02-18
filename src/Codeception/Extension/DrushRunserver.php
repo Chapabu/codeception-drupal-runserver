@@ -244,6 +244,8 @@ class DrushRunserver extends Extension
         }
 
         $this->writeln('Started Drush server.');
+
+        sleep(2);
     }
 
     /**
@@ -259,8 +261,10 @@ class DrushRunserver extends Extension
                 }
             }
             proc_terminate($this->resource, 2);
-            $this->writeln('Stopped Drush server.');
             unset($this->resource);
+
+            sleep(2);
+            $this->writeln('Stopped Drush server.');
         }
     }
 

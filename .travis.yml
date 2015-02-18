@@ -31,3 +31,4 @@ after_failure:
   - cat tests/_output/drush.runserver.errors.txt
   - cat tests/_output/drush.runserver.output.txt
   - cat tests/_output/BasicServerTestCept.fail.html
+  - vendor/bin/drush st -r testsites/drupal7/drupal-7.x
