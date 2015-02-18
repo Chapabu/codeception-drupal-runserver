@@ -20,7 +20,7 @@ before_script:
   - vendor/bin/codecept build
 
 script:
-  - vendor/bin/codecept run
+  - vendor/bin/codecept run --debug
 
 # Whitelist branches to test.
 branches:
