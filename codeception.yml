@@ -11,7 +11,7 @@ settings:
 modules:
     config:
         PhpBrowser:
-            url: 'http://127.0.0.1:8081/'
+            url: 'http://localhost:8081/'
 extensions:
     enabled:
         - Codeception\Extension\DrushRunserver
@@ -19,5 +19,5 @@ extensions:
         Codeception\Extension\DrushRunserver:
             drupalRoot: 'testsites/drupal7/drupal-7.x'
             drushBinary: 'vendor/bin/drush'
-            hostname: '127.0.0.1'
+            hostname: 'localhost'
             port: '8081'
