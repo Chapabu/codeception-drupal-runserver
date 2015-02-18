@@ -197,6 +197,9 @@ class DrushRunserver extends Extension
 
         // Get the actual command and a descriptor spec to pass to proc_open().
         $command = $this->getCommand();
+
+        $this->writeln('<debug>Using command: ' . $command . '</debug>');
+        
         $descriptorSpec = $this->getDescriptorSpec();
 
         // Start the process.
