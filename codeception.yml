@@ -21,3 +21,4 @@ extensions:
             drushBinary: 'vendor/bin/drush'
             hostname: 'localhost'
             port: '8081'
+            sleep: 3

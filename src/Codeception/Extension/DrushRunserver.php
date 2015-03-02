@@ -52,10 +52,14 @@ class DrushRunserver extends Extension
             $this->drushBinary = $this->config['drushBinary'];
         }
 
+        // Get the sleep timeout from the config if it's available.
+        $this->sleep = isset($this->config['sleep']) ? $this->config['sleep'] : 2;
+
         $this->startServer();
 
         $resource = $this->resource;
 
+        
         register_shutdown_function(
           function () use ($resource) {
               if (is_resource($resource)) {
@@ -240,12 +244,12 @@ class DrushRunserver extends Extension
             $checks++;
 
             // Wait before checking again
-            sleep(1);
+            sleep($this->sleep);
         }
 
         $this->writeln('Started Drush server.');
 
-        sleep(2);
+        sleep($this->sleep);
     }
 
     /**
@@ -263,7 +267,7 @@ class DrushRunserver extends Extension
             proc_terminate($this->resource, 2);
             unset($this->resource);
 
-            sleep(2);
+            sleep($this->sleep);
             $this->writeln('Stopped Drush server.');
         }
     }
